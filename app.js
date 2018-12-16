@@ -2,15 +2,25 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 
 const productRoutes = require('./api/routes/products')
 const orderRoutes = require('./api/routes/orders')
-
+const uri = 'mongodb://localhost:27017/shop2'
 //Use morgan:
 app.use(morgan('dev'))
 //use body-parser
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+
+//connecting to database
+mongoose.connect(uri, { useNewUrlParser: true }).then(
+  (res) => {
+    console.log('Connected to database successfully')
+  }
+).catch(()=> {
+  console.log('Connection to daabase is failed')
+})
 
 //CORS handling
 
