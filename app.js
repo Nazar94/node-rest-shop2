@@ -12,7 +12,8 @@ app.use(morgan('dev'))
 //use body-parser
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-
+//make uploads folder available ti everyone
+app.use('/uploads', express.static('uploads'))
 //connecting to database
 mongoose.connect(uri, { useNewUrlParser: true }).then(
   (res) => {
