@@ -7,6 +7,7 @@ const Product = require('../models/product')
 router.get('/', (req, res, next) => {
   Order.find()
     .select('product quantity _id')
+    .populate('product', 'name', 'price')
     .exec()
     .then(docs => {
       res.status(200).json({
@@ -60,6 +61,12 @@ router.post('/', (req, res, next) => {
       })
     })
     .catch(err => {
+      // if(!req.body.content) {
+      //   return res.status(404).send({
+      //     message: "Wrong content",
+      //     error: err
+      //   });
+      // }
       console.log(err)
       res.status(500).json({
         error: err
@@ -69,6 +76,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/:orderId', (req, res, next) => {
     Order.findById(req.params.orderId)
+      .populate('product')
       .exec()
       .then(order => {
         if(!order){
